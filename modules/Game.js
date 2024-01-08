@@ -3,9 +3,9 @@ export default function game() {
   const ctx = canvas.getContext("2d");
 
   const ball = {
-    x: 100,
-    y: 100,
-    vx: 5,
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    vx: -5,
     vy: 2,
     radius: 10,
     color: "white",
@@ -59,11 +59,24 @@ export default function game() {
     ball.x += ball.vx;
     ball.y += ball.vy;
 
-    if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+    // check if the ball is moving within the boundaries
+    if (ball.y + ball.vy > canvas.height - ball.radius || ball.y + ball.vy < ball.radius) {
       ball.vy = -ball.vy;
     }
-    if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+    if (ball.x + ball.vx > canvas.width - ball.radius || ball.x + ball.vx < ball.radius) {
       ball.vx = -ball.vx;
+    }
+
+
+    // check if the ball is colliding with the paddle
+    if (ball.x === 30) {
+      if (paddle.y <= ball.y && paddle.y + paddle.height >= ball.y) {
+        ball.vy = -ball.vy;
+        ball.vx = -ball.vx;
+      } else {
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
+      }
     }
 
     window.requestAnimationFrame(draw);
@@ -71,7 +84,7 @@ export default function game() {
 
   canvas.addEventListener("mousemove", (e) => {
     const rect = canvas.getBoundingClientRect();
-    const y = e.clientY - rect.top - (paddle.height / 2);
+    const y = e.clientY - rect.top - paddle.height / 2;
     paddle.move(y);
   });
 
