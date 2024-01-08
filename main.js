@@ -1,4 +1,4 @@
 import "./style.css";
-import Game from "./modules/Game.js";
+import game from "./modules/game.js";
 
-Game();
+game();
