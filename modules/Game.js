@@ -25,6 +25,8 @@ export default function game() {
     width: 10,
     height: 80,
     color: "#535bf2",
+    color: "white",
+    score: 0,
     draw() {
       ctx.fillStyle = this.color;
       ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -43,6 +45,8 @@ export default function game() {
     width: 10,
     height: 80,
     color: "#535bf2",
+    color: "white",
+    score: 0,
     draw() {
       ctx.fillStyle = this.color;
       ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -138,9 +142,18 @@ export default function game() {
     }
 
     // check if the paddle went out of bounds
-    if (ball.x < 0 || ball.x > canvas.width) {
+    if (ball.x < 0) {
       resetBall();
+      computerPaddle.score++;
+      document.getElementById('computerScore').innerHTML = computerPaddle.score;
     }
+
+    if (ball.x > canvas.width) {
+      resetBall();
+      userPaddle.score++;
+      document.getElementById('playerScore').innerHTML = userPaddle.score;
+    }
+
 
     window.requestAnimationFrame(draw);
   }
