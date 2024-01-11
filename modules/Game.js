@@ -1,6 +1,7 @@
 export default function game() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+  let gameStart = false;
 
   const ball = {
     x: canvas.width / 2,
@@ -21,9 +22,9 @@ export default function game() {
 
   const userPaddle = {
     x: 10,
-    y: 20,
-    width: 10,
+    y: canvas.height / 2 - 40,
     height: 80,
+    width: 10,
     color: "#535bf2",
     color: "white",
     score: 0,
@@ -41,7 +42,7 @@ export default function game() {
 
   const computerPaddle = {
     x: canvas.width - 20,
-    y: 20,
+    y: canvas.height / 2 - 40,
     width: 10,
     height: 80,
     color: "#535bf2",
@@ -105,8 +106,10 @@ export default function game() {
     net.draw();
     computerPaddle.draw();
 
-    ball.x += ball.vx;
-    ball.y += ball.vy;
+    if (gameStart) {
+      ball.x += ball.vx;
+      ball.y += ball.vy;
+    }
 
     const amountToMove =
       computerPaddle.y +
@@ -162,6 +165,8 @@ export default function game() {
     const rect = canvas.getBoundingClientRect();
     const y = e.clientY - rect.top - userPaddle.height / 2;
     userPaddle.move(y);
+    if (!gameStart) gameStart = true;
+    document.getElementById('gameInfo').style.opacity = '0';
   });
 
   window.requestAnimationFrame(draw);

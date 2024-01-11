@@ -15,12 +15,21 @@
   box-sizing: border-box;
 }
 
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: radial-gradient(circle, #181818 0%, #121212 100%);
+  color: white;
+}
+
 #canvas {
   background: radial-gradient(circle, #23379a 0%, #09133c 100%);
   border: 1px solid white;
 }
 
-.canvas {
+.gameboard {
   position: relative;
   display: inline-block;
 }
@@ -37,10 +46,14 @@
   pointer-events: none;
 }
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: radial-gradient(circle, #181818 0%, #121212 100%);
+.info {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  white-space: nowrap;
+  text-transform: uppercase;
+  opacity: 1;
+  transition: opacity 0.2s;
 }
