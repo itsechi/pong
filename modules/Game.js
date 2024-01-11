@@ -1,65 +1,14 @@
+import Ball from "./Ball";
+import Paddle from "./Paddle";
+
 export default function game() {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
   let gameStart = false;
 
-  const ball = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    vx: 5,
-    vy: 1,
-    speed: 7,
-    radius: 10,
-    color: "white",
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    },
-  };
-
-  const userPaddle = {
-    x: 10,
-    y: canvas.height / 2 - 40,
-    height: 80,
-    width: 10,
-    color: "#535bf2",
-    color: "white",
-    score: 0,
-    draw() {
-      ctx.fillStyle = this.color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-    },
-    move(y) {
-      if (y < 0) this.y = 0;
-      else if (y + this.height > canvas.height)
-        this.y = canvas.height - this.height;
-      else this.y = y;
-    },
-  };
-
-  const computerPaddle = {
-    x: canvas.width - 20,
-    y: canvas.height / 2 - 40,
-    width: 10,
-    height: 80,
-    color: "#535bf2",
-    color: "white",
-    score: 0,
-    draw() {
-      ctx.fillStyle = this.color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-    },
-    move(y) {
-      if (y < 0) this.y = 0;
-      else if (y + this.height > canvas.height)
-        this.y = canvas.height - this.height;
-      else this.y = y;
-    },
-  };
-
+  const ball = Ball(canvas, ctx);
+  const userPaddle = Paddle(canvas, ctx, 10);
+  const computerPaddle = Paddle(canvas, ctx, canvas.width - 20);
   const net = {
     x: canvas.width / 2,
     y: canvas.height,
@@ -148,15 +97,14 @@ export default function game() {
     if (ball.x < 0) {
       resetBall();
       computerPaddle.score++;
-      document.getElementById('computerScore').innerHTML = computerPaddle.score;
+      document.getElementById("computerScore").innerHTML = computerPaddle.score;
     }
 
     if (ball.x > canvas.width) {
       resetBall();
       userPaddle.score++;
-      document.getElementById('playerScore').innerHTML = userPaddle.score;
+      document.getElementById("playerScore").innerHTML = userPaddle.score;
     }
-
 
     window.requestAnimationFrame(draw);
   }
@@ -166,7 +114,7 @@ export default function game() {
     const y = e.clientY - rect.top - userPaddle.height / 2;
     userPaddle.move(y);
     if (!gameStart) gameStart = true;
-    document.getElementById('gameInfo').style.opacity = '0';
+    document.getElementById("gameInfo").style.opacity = "0";
   });
 
   window.requestAnimationFrame(draw);
